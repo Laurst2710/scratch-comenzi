@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <!--
+    Fișier: scratch-comenzi.html
+    Scop: Prezentare completă a blocurilor Scratch (≈83) cu categorie, denumire EN/RO și efect.
+    Utilizare: Poate fi publicat pe GitHub Pages ca pagină statică.
+    Notă: Include căutare live, ancore pe categorii și stilizare responsivă.
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scratch — Comenzi EN/RO + Explicații</title>
+  <style>
+    /* ====== Reset & bază tipografică ====== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+      line-height: 1.6;
+      color: #0f172a; /* slate-900 */
+      background: #f8fafc; /* slate-50 */
+    }
+
+    /* ====== Container ====== */
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* ====== Header ====== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(248, 250, 252, 0.85);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e2e8f0; /* slate-200 */
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+    }
+    h1 {
+      margin: 0.25rem 0;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .search input {
+      width: min(50vw, 360px);
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #fff;
+      outline: none;
+    }
+    .search input:focus {
+      border-color: #334155; /* slate-700 */
+      box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.15);
+    }
+
+    /* ====== Navigație pe categorii ====== */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0;
+    }
+    .chip {
+      background: #e2e8f0; /* slate-200 */
+      color: #0f172a;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border: 1px solid #cbd5e1;
+    }
+    .chip:hover { background: #cbd5e1; }
+
+    /* ====== Tabele ====== */
+    section {
+      margin-top: 2rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(2, 6, 23, 0.05);
+    }
+    section h2 {
+      margin: 0;
+      padding: 0.9rem 1rem;
+      background: #f1f5f9; /* slate-100 */
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 1.05rem;
+      letter-spacing: .2px;
+    }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    thead th {
+      position: sticky;
+      top: 58px; /* compensează header-ul */
+      background: #ffffff;
+      z-index: 5;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th, td {
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+      text-align: left;
+      white-space: nowrap;
+    }
+    td:nth-child(3) { white-space: normal; } /* explicatia poate înfășura */
+    tbody tr:hover { background: #f8fafc; }
+
+    /* ====== Footer ====== */
+    footer {
+      color: #475569;
+      font-size: 0.9rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    /* ====== Badge categorie ====== */
+    .badge {
+      font-size: 0.78rem;
+      background: #e2e8f0;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      margin-left: 0.5rem;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 640px) {
+      .header-inner { grid-template-columns: 1fr; }
+      .search input { width: 100%; }
+      thead th { top: 92px; }
+      th, td { padding: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Scratch — comenzi (EN/RO) <span class="badge">categorii + efect</span></h1>
+      <div class="search">
+        <!-- Câmp de filtrare globală (filtrează toate tabelele după text) -->
+        <input id="filter" type="search" placeholder="Filtru rapid: categorie / EN / RO / efect…" aria-label="Filtru rapid" />
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Navigație rapidă între categorii -->
+    <nav class="chips" aria-label="Categorii">
+      <a class="chip" href="#motion">Motion</a>
+      <a class="chip" href="#looks">Looks</a>
+      <a class="chip" href="#sound">Sound</a>
+      <a class="chip" href="#events">Events</a>
+      <a class="chip" href="#control">Control</a>
+      <a class="chip" href="#sensing">Sensing</a>
+      <a class="chip" href="#operators">Operators</a>
+      <a class="chip" href="#variables">Variables & Lists</a>
+    </nav>
+
+    <!--
+      Structură repetată: fiecare secțiune are un tabel cu trei coloane:
+      EN / RO / Explicație. Datele sunt intenționat concise pentru a încăpea ușor pe o pagină.
+    -->
+
+    <!-- ====== MOTION ====== -->
+    <section id="motion" aria-labelledby="h-motion">
+      <h2 id="h-motion">1) Motion (Mișcare)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Motion">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>move (10) steps</td><td>mergi înainte (10) pași</td><td>Deplasează sprite-ul în față (pași &gt; 0) sau înapoi (pași &lt; 0).</td></tr>
+            <tr><td>turn right (15) degrees</td><td>rotește la dreapta (15°)</td><td>Întoarce sprite-ul spre dreapta cu unghiul dat.</td></tr>
+            <tr><td>turn left (15) degrees</td><td>rotește la stânga (15°)</td><td>Întoarce sprite-ul spre stânga cu unghiul dat.</td></tr>
+            <tr><td>go to x:(0) y:(0)</td><td>mergi la x:(0) y:(0)</td><td>Mută sprite-ul la coordonatele indicate.</td></tr>
+            <tr><td>glide (1) secs to x:(100) y:(100)</td><td>alunecă (1s) până la x:(100) y:(100)</td><td>Se deplasează lin spre o poziție în timpul dat.</td></tr>
+            <tr><td>point in direction (90)</td><td>îndreaptă în direcția (90°)</td><td>Setează orientarea (0=sus, 90=dreapta, 180=jos, -90=stânga).</td></tr>
+            <tr><td>point towards [mouse-pointer]</td><td>îndreaptă spre [cursorul mouse-ului]</td><td>Orientează sprite-ul spre țintă (ex: un alt sprite / cursor).</td></tr>
+            <tr><td>change x by (10)</td><td>schimbă x cu (10)</td><td>Translație orizontală relativă (dreapta/stânga).</td></tr>
+            <tr><td>set x to (0)</td><td>setează x la (0)</td><td>Pozitionează sprite-ul la o coordonată X fixă.</td></tr>
+            <tr><td>change y by (10)</td><td>schimbă y cu (10)</td><td>Translație verticală relativă (sus/jos).</td></tr>
+            <tr><td>set y to (0)</td><td>setează y la (0)</td><td>Poziționează sprite-ul la o coordonată Y fixă.</td></tr>
+            <tr><td>if on edge, bounce</td><td>dacă atinge marginea, ricoșează</td><td>Inversează automat direcția la marginea scenei.</td></tr>
+            <tr><td>set rotation style [left-right]</td><td>setează stilul rotației [stânga-dreapta]</td><td>Controlează cum se rotește (all around / left-right / don’t rotate).</td></tr>
+            <tr><td>go to [mouse-pointer]</td><td>mergi la [cursorul mouse-ului]</td><td>Se teleportează la un obiect/poziție (mouse-pointer sau sprite).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== LOOKS ====== -->
+    <section id="looks" aria-labelledby="h-looks">
+      <h2 id="h-looks">2) Looks (Aparență)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Looks">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>say [Hello!] for (2) seconds</td><td>spune [Salut!] timp de (2) secunde</td><td>Afișează un mesaj temporar.</td></tr>
+            <tr><td>say [Hello!]</td><td>spune [Salut!]</td><td>Afișează un mesaj continuu (până se schimbă).</td></tr>
+            <tr><td>think [Hmm…] for (2) seconds</td><td>gândește [Hmm…] timp de (2) secunde</td><td>Afișează un balon de gândire temporar.</td></tr>
+            <tr><td>switch costume to [costume2]</td><td>schimbă costumul în [costume2]</td><td>Schimbă instant costumul sprite-ului.</td></tr>
+            <tr><td>next costume</td><td>următorul costum</td><td>Trece la următorul costum disponibil.</td></tr>
+            <tr><td>switch backdrop to [backdrop2]</td><td>schimbă fundalul în [fundal2]</td><td>Schimbă decorul scenei.</td></tr>
+            <tr><td>change size by (10)</td><td>schimbă dimensiunea cu (10)</td><td>Mărește/micșorează relativ mărimea sprite-ului.</td></tr>
+            <tr><td>set size to (100)%</td><td>setează dimensiunea la (100)%</td><td>Fixează mărimea în procente.</td></tr>
+            <tr><td>show</td><td>arată</td><td>Face sprite-ul vizibil.</td></tr>
+            <tr><td>hide</td><td>ascunde</td><td>Face sprite-ul invizibil.</td></tr>
+            <tr><td>change [color] effect by (25)</td><td>schimbă efectul [culoare] cu (25)</td><td>Modifică un efect vizual (color, fisheye, whirl, pixelate, mosaic, brightness, ghost).</td></tr>
+            <tr><td>set [color] effect to (0)</td><td>setează efectul [culoare] la (0)</td><td>Setează valoarea unui efect vizual.</td></tr>
+            <tr><td>clear graphic effects</td><td>șterge efectele grafice</td><td>Elimină toate efectele (revine la normal).</td></tr>
+            <tr><td>go to front layer</td><td>mergi în stratul din față</td><td>Aduce sprite-ul în plan frontal.</td></tr>
+            <tr><td>go back (1) layers</td><td>mergi înapoi (1) straturi</td><td>Trimite sprite-ul în spate (cu N straturi).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== SOUND ====== -->
+    <section id="sound" aria-labelledby="h-sound">
+      <h2 id="h-sound">3) Sound (Sunet)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Sound">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>play sound [pop] until done</td><td>redă sunetul [pop] până la final</td><td>Redă complet și blochează până la terminare.</td></tr>
+            <tr><td>start sound [meow]</td><td>pornește sunetul [miau]</td><td>Pornește asinc. un sunet.</td></tr>
+            <tr><td>stop all sounds</td><td>oprește toate sunetele</td><td>Oprește redarea tuturor sunetelor.</td></tr>
+            <tr><td>change pitch effect by (10)</td><td>schimbă efectul de tonalitate cu (10)</td><td>Modifică înălțimea sunetului (pitch).</td></tr>
+            <tr><td>set pitch effect to (0)</td><td>setează tonalitatea la (0)</td><td>Setează pitch-ul la o valoare.</td></tr>
+            <tr><td>clear sound effects</td><td>șterge efectele sonore</td><td>Resetează toate efectele audio.</td></tr>
+            <tr><td>change volume by (-10)</td><td>schimbă volumul cu (-10)</td><td>Scade/crește volumul relativ.</td></tr>
+            <tr><td>set volume to (100)%</td><td>setează volumul la (100)%</td><td>Setează volumul în procente.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== EVENTS ====== -->
+    <section id="events" aria-labelledby="h-events">
+      <h2 id="h-events">4) Events (Evenimente)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Events">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>when green flag clicked</td><td>când se apasă steagul verde</td><td>Punctul clasic de start pentru proiect.</td></tr>
+            <tr><td>when [space] key pressed</td><td>când tasta [spațiu] e apăsată</td><td>Declanșează la apăsarea unei taste.</td></tr>
+            <tr><td>when this sprite clicked</td><td>când se face clic pe acest sprite</td><td>Rulează când sprite-ul e clicuit.</td></tr>
+            <tr><td>when backdrop switches to [backdrop2]</td><td>când fundalul se schimbă în [fundal2]</td><td>Reacționează la schimbarea decorului.</td></tr>
+            <tr><td>when [loudness] &gt; (10)</td><td>când [volumul] &gt; (10)</td><td>Declanșează la prag de intensitate audio.</td></tr>
+            <tr><td>broadcast [message1]</td><td>transmite [mesaj1]</td><td>Trimite un semnal global altor scripturi.</td></tr>
+            <tr><td>broadcast [message1] and wait</td><td>transmite [mesaj1] și așteaptă</td><td>Trimite mesaj și așteaptă finalizarea tuturor receptorilor.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== CONTROL ====== -->
+    <section id="control" aria-labelledby="h-control">
+      <h2 id="h-control">5) Control (Control)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Control">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>wait (1) seconds</td><td>așteaptă (1) secunde</td><td>Face pauză pentru un timp dat.</td></tr>
+            <tr><td>repeat (10)</td><td>repetă (10) ori</td><td>Iterează un bloc de N ori.</td></tr>
+            <tr><td>forever</td><td>pentru totdeauna</td><td>Buclează la infinit.</td></tr>
+            <tr><td>if &lt;condition&gt; then</td><td>dacă &lt;condiție&gt; atunci</td><td>Ramură condițională simplă.</td></tr>
+            <tr><td>if &lt;condition&gt; then else</td><td>dacă &lt;condiție&gt; atunci altfel</td><td>Ramură condițională cu două căi.</td></tr>
+            <tr><td>wait until &lt;condition&gt;</td><td>așteaptă până când &lt;condiție&gt;</td><td>Pauză până când condiția devine adevărată.</td></tr>
+            <tr><td>repeat until &lt;condition&gt;</td><td>repetă până când &lt;condiție&gt;</td><td>Repetă până la îndeplinirea condiției.</td></tr>
+            <tr><td>stop [all / this script / other scripts in sprite]</td><td>oprește [tot / acest script / alte scripturi din sprite]</td><td>Oprește execuția conform opțiunii.</td></tr>
+            <tr><td>when I start as a clone</td><td>când încep ca clonă</td><td>Inițializează comportamentul clonelor.</td></tr>
+            <tr><td>create clone of [myself]</td><td>creează o clonă a [mea]</td><td>Generează o copie a sprite-ului.</td></tr>
+            <tr><td>delete this clone</td><td>șterge această clonă</td><td>Elimină copia curentă.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== SENSING ====== -->
+    <section id="sensing" aria-labelledby="h-sensing">
+      <h2 id="h-sensing">6) Sensing (Senzori)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Sensing">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>touching [edge]?</td><td>atinge [marginea]?</td><td>Test de coliziune cu marginea sau un sprite.</td></tr>
+            <tr><td>touching color [#0000ff]?</td><td>atinge culoarea [#0000ff]?</td><td>Detecție de culoare în zona sprite-ului.</td></tr>
+            <tr><td>color [#ff0000] is touching [#0000ff]?</td><td>culoarea [#ff0000] atinge [#0000ff]?</td><td>Verifică atingerea între două culori.</td></tr>
+            <tr><td>distance to [mouse-pointer]</td><td>distanța până la [cursor]</td><td>Măsoară distanța până la țintă.</td></tr>
+            <tr><td>ask [What’s your name?] and wait</td><td>întreabă [Cum te cheamă?] și așteaptă</td><td>Primește input text de la utilizator.</td></tr>
+            <tr><td>answer</td><td>răspuns</td><td>Conține ultimul text introdus de utilizator.</td></tr>
+            <tr><td>key [space] pressed?</td><td>tasta [spațiu] apăsată?</td><td>Detector de tastă.</td></tr>
+            <tr><td>mouse down?</td><td>mouse apăsat?</td><td>Verifică butonul mouse-ului.</td></tr>
+            <tr><td>mouse x</td><td>coordonata x a mouse-ului</td><td>Poziția orizontală a cursorului.</td></tr>
+            <tr><td>mouse y</td><td>coordonata y a mouse-ului</td><td>Poziția verticală a cursorului.</td></tr>
+            <tr><td>loudness</td><td>intensitatea sunetului</td><td>Nivelul curent de volum detectat (microfon).</td></tr>
+            <tr><td>timer</td><td>cronometru</td><td>Timpul scurs în secunde.</td></tr>
+            <tr><td>reset timer</td><td>resetează cronometrul</td><td>Resetează cronometrul la 0.</td></tr>
+            <tr><td>current [year/month/day/hour/minute/second]</td><td>valoarea curentă [an/lună/zi/oră/minut/secundă]</td><td>Returnează componente din data/ora sistemului.</td></tr>
+            <tr><td>days since 2000</td><td>zile de la 2000</td><td>Număr zeci-mi de zile de la 1 ian 2000.</td></tr>
+            <tr><td>username</td><td>nume de utilizator</td><td>Numele contului autentificat (dacă este).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== OPERATORS ====== -->
+    <section id="operators" aria-labelledby="h-operators">
+      <h2 id="h-operators">7) Operators (Operatori)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Operators">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>( ) + ( )</td><td>( ) + ( )</td><td>Adună două valori.</td></tr>
+            <tr><td>( ) - ( )</td><td>( ) - ( )</td><td>Scade a doua valoare din prima.</td></tr>
+            <tr><td>( ) * ( )</td><td>( ) * ( )</td><td>Înmulțește două valori.</td></tr>
+            <tr><td>( ) / ( )</td><td>( ) / ( )</td><td>Împarte prima valoare la a doua.</td></tr>
+            <tr><td>pick random (1) to (10)</td><td>alege un număr aleator între (1) și (10)</td><td>Generează un număr aleator în interval.</td></tr>
+            <tr><td>&lt; ( ) = ( ) &gt;</td><td>&lt; ( ) = ( ) &gt;</td><td>Compară egalitatea.</td></tr>
+            <tr><td>&lt; ( ) &gt; ( ) &gt;</td><td>&lt; ( ) &gt; ( ) &gt;</td><td>Mai mare decât.</td></tr>
+            <tr><td>&lt; ( ) &lt; ( ) &gt;</td><td>&lt; ( ) &lt; ( ) &gt;</td><td>Mai mic decât.</td></tr>
+            <tr><td>&lt; ( ) and ( ) &gt;</td><td>&lt; ( ) și ( ) &gt;</td><td>Operator logic ȘI.</td></tr>
+            <tr><td>&lt; ( ) or ( ) &gt;</td><td>&lt; ( ) sau ( ) &gt;</td><td>Operator logic SAU.</td></tr>
+            <tr><td>not ( )</td><td>nu ( )</td><td>Negarea condiției.</td></tr>
+            <tr><td>join [a] [b]</td><td>unește [a] [b]</td><td>Concatenează două texte.</td></tr>
+            <tr><td>letter (1) of [word]</td><td>litera (1) din [cuvânt]</td><td>Extrage un caracter.</td></tr>
+            <tr><td>length of [word]</td><td>lungimea [cuvântului]</td><td>Numărul de caractere.</td></tr>
+            <tr><td>( ) mod ( )</td><td>( ) rest ( )</td><td>Restul împărțirii întregi.</td></tr>
+            <tr><td>round ( )</td><td>rotunjește ( )</td><td>Rotunjește un număr.</td></tr>
+            <tr><td>[sqrt/abs/floor/ceiling/sin/cos/tan/asin/acos/atan/ln/log/exp/10^]</td><td>funcție matematică</td><td>Aplica funcții matematico-trigon. standard.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====== VARIABLES & LISTS ====== -->
+    <section id="variables" aria-labelledby="h-variables">
+      <h2 id="h-variables">8) Variables &amp; Lists (Variabile &amp; Liste)</h2>
+      <div class="table-wrap">
+        <table role="table" aria-label="Variables and Lists">
+          <thead>
+            <tr>
+              <th>Command (EN)</th>
+              <th>Comandă (RO)</th>
+              <th>Explicație / Efect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>set [variable] to (0)</td><td>setează [variabila] la (0)</td><td>Inițializează sau actualizează o valoare.</td></tr>
+            <tr><td>change [variable] by (1)</td><td>schimbă [variabila] cu (1)</td><td>Modifică numeric valoarea curentă.</td></tr>
+            <tr><td>show variable [name]</td><td>arată variabila [nume]</td><td>Afișează pe scenă valoarea variabilei.</td></tr>
+            <tr><td>hide variable [name]</td><td>ascunde variabila [nume]</td><td>Ascunde din scenă valoarea variabilei.</td></tr>
+            <tr><td>add [item] to [list]</td><td>adaugă [element] la [listă]</td><td>Adaugă element la finalul listei.</td></tr>
+            <tr><td>delete (1) of [list]</td><td>șterge (1) din [listă]</td><td>Elimină elementul de pe poziția dată.</td></tr>
+            <tr><td>delete all of [list]</td><td>șterge toate elementele din [listă]</td><td>Golește complet lista.</td></tr>
+            <tr><td>insert [item] at (1) of [list]</td><td>inserează [element] la (1) în [listă]</td><td>Inserează pe o poziție indicată.</td></tr>
+            <tr><td>replace item (1) of [list] with [thing]</td><td>înlocuiește elementul (1) din [listă] cu [valoare]</td><td>Suprascrie un element.</td></tr>
+            <tr><td>item (1) of [list]</td><td>elementul (1) din [listă]</td><td>Accesează un element după index.</td></tr>
+            <tr><td>length of [list]</td><td>lungimea listei [listă]</td><td>Numărul de elemente din listă.</td></tr>
+            <tr><td>[list] contains [thing]?</td><td>lista [listă] conține [valoare]?</td><td>Test de apartenență.</td></tr>
+            <tr><td>show list [name]</td><td>arată lista [nume]</td><td>Afișează lista pe scenă.</td></tr>
+            <tr><td>hide list [name]</td><td>ascunde lista [nume]</td><td>Ascunde lista din scenă.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <!--
+        Publicare pe GitHub Pages:
+        1) Creează un repo public (ex: scratch-commands).
+        2) Adaugă acest fișier ca index.html la rădăcina repo-ului.
+        3) Settings → Pages → Source: deploy from branch → / (root) → Save.
+      -->
+      <p>© Material educațional bilingv EN/RO — Scratch commands. Compatibil cu Scratch 3.x (fără extensii).</p>
+    </footer>
+  </div>
+
+  <script>
+    // ====== Filtrare globală: ascunde rândurile care nu conțin textul căutat ======
+    const filter = document.getElementById('filter');
+    const tables = Array.from(document.querySelectorAll('tbody'));
+    filter.addEventListener('input', () => {
+      const q = filter.value.trim().toLowerCase();
+      tables.forEach(tbody => {
+        Array.from(tbody.rows).forEach(row => {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(q) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
